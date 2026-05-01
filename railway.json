@@ -1,0 +1,25 @@
+{
+  "services": {
+    "backend": {
+      "buildCommand": "cd backend && ./mvnw clean package -DskipTests",
+      "startCommand": "cd backend && java -Dserver.port=$PORT -Dspring.datasource.url=$DATABASE_URL -Dspring.datasource.username=$DATABASE_USER -Dspring.datasource.password=$DATABASE_PASSWORD -Djwt.secret.key=$JWT_SECRET -Dspring.web.cors.allowed-origins=$FRONTEND_URL -jar target/AuthService-0.0.1-SNAPSHOT.jar",
+      "port": 8080,
+      "healthCheckPath": "/api/profile",
+      "environmentVariables": {
+        "PORT": "8080",
+        "DATABASE_USER": "root",
+        "DATABASE_PASSWORD": "",
+        "JWT_SECRET": "your-jwt-secret-key-change-in-production",
+        "FRONTEND_URL": "http://localhost:3000"
+      }
+    },
+    "frontend": {
+      "buildCommand": "cd frontend && npm install && npm run build",
+      "startCommand": "cd frontend && npm install -g serve && serve -s dist -l 3000",
+      "port": 3000,
+      "environmentVariables": {
+        "VITE_API_BASE_URL": "http://localhost:8080/api"
+      }
+    }
+  }
+}
