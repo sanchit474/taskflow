@@ -170,20 +170,22 @@ On first startup, the application creates a default admin account:
    - Go to [Railway.app](https://railway.app) and sign up
 
 2. **Connect GitHub Repository**
-   - Create a GitHub repository and push your code
-   - Connect your GitHub account to Railway
+   - Push this repository to GitHub
+   - Create a new Railway project from the GitHub repo
 
-3. **Set Environment Variables**
-   - Database URL
-   - JWT secret key
-   - CORS allowed origins
+3. **Use the root Dockerfile**
+   - Railway should detect the root `Dockerfile`
+   - It builds the React app, bundles it into Spring Boot, and runs one live service
 
-4. **Configure Database**
-   - Add MySQL plugin in Railway
-   - Configure connection string
+4. **Set Environment Variables**
+   - `DATABASE_URL`
+   - `DATABASE_USER`
+   - `DATABASE_PASSWORD`
+   - `JWT_SECRET`
+   - `CORS_ORIGINS`
 
 5. **Deploy**
-   - Railway will automatically deploy on push to main branch
+   - Railway will build and deploy the app automatically
 
 ## Building for Production
 

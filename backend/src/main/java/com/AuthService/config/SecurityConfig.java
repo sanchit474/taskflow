@@ -39,12 +39,25 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())       // ✅ Enable CORS support
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(
-                                "/register",
-                                "/login",
-                            "/auth/**",
-                            "/users/**",
-                                "/logout",
-                                "/error"
+                        "/",
+                        "/index.html",
+                        "/dashboard",
+                        "/dashboard/**",
+                        "/projects",
+                        "/projects/**",
+                        "/team",
+                        "/login",
+                        "/register",
+                        "/email-verify",
+                        "/reset-password",
+                        "/assets/**",
+                        "/favicon.ico",
+                        "/api/auth/**",
+                        "/api/register",
+                        "/api/login",
+                        "/api/logout",
+                        "/api/users/**",
+                        "/error"
                         ).permitAll()
                         .anyRequest()
                         .authenticated()
@@ -72,7 +85,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // frontend origin
+        config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000")); // frontend origin
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);

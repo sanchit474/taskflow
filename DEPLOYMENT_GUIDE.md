@@ -42,29 +42,22 @@ git push -u origin main
 ### 3.1 Create Railway Account & Project
 1. Go to https://railway.app and sign up
 2. Create a new project
-3. Click "Create New" and select "GitHub Repo"
-4. Connect your GitHub account (Railway will ask for permissions)
+3. Select "Deploy from GitHub repo"
+4. Connect your GitHub account
 5. Select your TaskFlow repository
-6. Railway will automatically detect your build setup
+6. Railway should detect the root `Dockerfile`
 
 ### 3.2 Configure Environment Variables
 
-Railway will need these environment variables for your services:
+Railway will need these environment variables for the single app service:
 
-#### Backend Service Variables:
 ```
 DATABASE_URL=mysql://user:password@host:port/database
 DATABASE_USER=your_db_user
 DATABASE_PASSWORD=your_db_password
 JWT_SECRET=your_super_secret_jwt_key_here_min_32_chars
-FRONTEND_URL=https://your-frontend-domain.railway.app
-CORS_ORIGINS=https://your-frontend-domain.railway.app
-SERVER_PORT=8080
-```
-
-#### Frontend Service Variables:
-```
-VITE_API_BASE_URL=https://your-backend-domain.railway.app/api
+CORS_ORIGINS=https://your-railway-app.up.railway.app
+PORT=8080
 ```
 
 ### 3.3 Database Setup
@@ -83,7 +76,7 @@ Railway provides MySQL as a plugin:
    - `MYSQLPASSWORD` - Database password
    - `MYSQLDATABASE` - Database name
 
-3. Use these in your backend environment variables:
+4. Use these in your Railway app variables:
    ```
    DATABASE_URL=mysql://MYSQLUSER:MYSQLPASSWORD@MYSQLHOST:MYSQLPORT/MYSQLDATABASE
    ```
