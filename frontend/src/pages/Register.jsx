@@ -7,6 +7,7 @@ import { AppContext } from '../context/AppContext.jsx';
 const Register = () => {
   const navigate = useNavigate();
   const { backendURL } = useContext(AppContext);
+  const apiBase = backendURL.endsWith('/api') ? backendURL : `${backendURL.replace(/\/$/, '')}/api`;
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,8 +25,7 @@ const Register = () => {
 
     setLoading(true);
     try {
-      axios.defaults.withCredentials = true;
-      await axios.post(`${backendURL}/auth/signup`, { name, email, password });
+      await axios.post(`${apiBase}/auth/signup`, { name, email, password }, { withCredentials: true });
       toast.success('Account created. You can sign in now.');
       navigate('/login');
     } catch (err) {

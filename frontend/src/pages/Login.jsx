@@ -11,14 +11,18 @@ const Login = () => {
 
   const navigate = useNavigate();
   const { backendURL, setIsLoggedIn, getUserData } = useContext(AppContext);
+  const apiBase = backendURL.endsWith('/api') ? backendURL : `${backendURL.replace(/\/$/, '')}/api`;
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      axios.defaults.withCredentials = true;
-      const response = await axios.post(`${backendURL}/auth/login`, { email, password });
+      const response = await axios.post(
+        `${apiBase}/auth/login`,
+        { email, password },
+        { withCredentials: true }
+      );
 
       if (response.status === 200 && response.data?.token) {
         localStorage.setItem('jwt', response.data.token);
