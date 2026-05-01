@@ -1,2 +1,0 @@
-web: cd backend && ./mvnw clean package -DskipTests && java -Dserver.port=${PORT:-8080} -Dspring.datasource.url=${DATABASE_URL} -Dspring.datasource.username=${DATABASE_USER} -Dspring.datasource.password=${DATABASE_PASSWORD} -Djwt.secret.key=${JWT_SECRET} -Dspring.web.cors.allowed-origins=${CORS_ORIGINS} -jar target/AuthService-0.0.1-SNAPSHOT.jar &
-web: cd frontend && npm install && npm run build && npx serve -s dist -l 3000
