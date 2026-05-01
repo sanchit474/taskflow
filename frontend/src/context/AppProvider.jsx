@@ -3,7 +3,10 @@ import axios from 'axios';
 import { AppContext } from './AppContext.jsx';
 
 const AppProvider = ({ children }) => {
-  const backendURL = (import.meta.env.VITE_BACKEND_URL || (import.meta.env.DEV ? 'http://localhost:8080/api' : '/api'));
+  const backendURL =
+    (import.meta.env.VITE_BACKEND_URL ||
+      import.meta.env.VITE_API_BASE_URL ||
+      (import.meta.env.DEV ? 'http://localhost:8080/api' : '/api'));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
