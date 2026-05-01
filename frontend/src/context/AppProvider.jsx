@@ -11,9 +11,18 @@ const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const apiBase = backendURL.endsWith('/api') ? backendURL : `${backendURL.replace(/\/$/, '')}/api`;
+  const syncAuthHeader = () => {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common.Authorization;
+    }
+  };
 
   const getUserData = async () => {
     try {
+      syncAuthHeader();
       const res = await axios.get(`${apiBase}/profile`, { withCredentials: true });
       setUser(res.data);
       setIsLoggedIn(true);
@@ -27,10 +36,13 @@ const AppProvider = ({ children }) => {
 
   const logout = async () => {
     try {
+      syncAuthHeader();
       await axios.post(`${apiBase}/logout`, {}, { withCredentials: true });
     } catch (err) {
       // ignore errors on logout
     } finally {
+      localStorage.removeItem('jwt');
+      syncAuthHeader();
       setUser(null);
       setIsLoggedIn(false);
     }
@@ -38,6 +50,7 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     // On app load, try to discover existing session
+    syncAuthHeader();
     getUserData();
   }, []);
 

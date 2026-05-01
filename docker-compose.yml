@@ -23,15 +23,17 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: backend/Dockerfile
     container_name: taskflow-backend
+    env_file:
+      - .env
     environment:
       DATABASE_URL: jdbc:mysql://mysql:3306/EtharaAIDB
       DATABASE_USER: taskflow_user
       DATABASE_PASSWORD: taskflow_password
       JWT_SECRET: your_super_secret_jwt_key_here_min_32_chars
-      CORS_ORIGINS: http://localhost:3000,http://localhost:5173
-      SERVER_PORT: 8080
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      PORT: 8080
     ports:
       - "8080:8080"
     depends_on:
@@ -43,10 +45,15 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile.frontend
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL:-http://localhost:8080/api}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080/api}
     container_name: taskflow-frontend
+    env_file:
+      - .env
     environment:
-      VITE_API_BASE_URL: http://localhost:8080/api
+      PORT: ${PORT:-3000}
     ports:
       - "3000:3000"
       - "5173:5173"

@@ -26,6 +26,7 @@ const Login = () => {
 
       if (response.status === 200 && response.data?.token) {
         localStorage.setItem('jwt', response.data.token);
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
         setIsLoggedIn(true);
         const profile = await getUserData();
         toast.success('Welcome back!');
